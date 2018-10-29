@@ -124,7 +124,7 @@ H:
     </ul>
     <!-- more Elements -->
   </div>
-  <div style="text-align: right; float: right;">
+  <div style="text-align: middle; float: right;">
     <br>
     <figure>
         <img height='50%' src='fig/fig3.gif'/>
