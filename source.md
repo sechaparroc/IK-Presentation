@@ -31,7 +31,7 @@ H:
  2. Forward Kinematics<!-- .element: class="fragment" data-fragment-index="2"-->
  3. Inverse Kinematics <!-- .element: class="fragment" data-fragment-index="3"-->
  4. IK Heuristic Methods <!-- .element: class="fragment" data-fragment-index="4"-->
- 5. Constraint by Projection <!-- .element: class="fragment" data-fragment-index="5"-->
+ 5. Using constraints <!-- .element: class="fragment" data-fragment-index="5"-->
  6. IK on Frames <!-- .element: class="fragment" data-fragment-index="6"-->
 
 H:
@@ -57,10 +57,8 @@ V:
     <ul style="text-align: justify-all; font-size: 0.7em !important;">
       <li class="fragment" data-fragment-index="1"> Is usually represented as a Hierarchical Structure </li>
       <br>
-
       <li class="fragment" data-fragment-index="2"> Joints are parametrized by Degrees of Fredom (DOF)</li>
       <br>
-  
       <li class="fragment" data-fragment-index="3"> An end effector $\mathbf{s}$ is a point of interest that depends on joint configurations: $ \mathbf{s} = f(\mathbf{ \theta }) $ </li>
     </ul>
     <!-- more Elements -->
@@ -72,7 +70,6 @@ V:
     </figure>
     <!-- more Elements -->
   </div>
-
 </section>
 
 
@@ -86,29 +83,23 @@ H:
     <ul style="text-align: justify-all; font-size: 0.7em !important;">
       <li class="fragment" data-fragment-index="1"> Given the joint configurations $ \mathbf{ \theta }$ find the End effector Position $ \mathbf{s} = f(\mathbf{ \theta })$ </li>
       <br>
-
       <li class="fragment" data-fragment-index="2"> Direct joint manipulation </li>
       <br>
-
       <li class="fragment" data-fragment-index="3"> Exhaustive </li>
       <br>
-  
       <li class="fragment" data-fragment-index="4"> Not Redundant </li>
       <br>
-
     </ul>
     <!-- more Elements -->
   </div>
   <div style="text-align: right; float: right;">
     <br>
-
     <figure>
         <img height='50%' src='fig/fig2.gif'/>
         <figcaption style="text-align: center;">[Source](https://www.davepagurek.com/blog/inverse-kinematics/)</figcaption>
     </figure>
     <!-- more Elements -->
   </div>
-
 </section>
 
 
@@ -122,42 +113,36 @@ H:
     <ul style="text-align: justify-all; font-size: 0.7em !important;">
       <li class="fragment" data-fragment-index="1"> Given the state of the Final effector $ \mathbf{s} $ find joint configurations: $\mathbf{ \theta } = f^{-1}( \mathbf{ s}) $ </li>
       <br>
-
       <li class="fragment" data-fragment-index="2"> Indirect joint manipulation based on Goal Reaching </li>
       <br>
-
       <li class="fragment" data-fragment-index="3"> Root joint is Fixed </li>
       <br>
-
       <li class="fragment" data-fragment-index="4"> Not Exhaustive </li>
       <br>
-  
       <li class="fragment" data-fragment-index="5"> Redundant </li>
       <br>
-
     </ul>
     <!-- more Elements -->
   </div>
   <div style="text-align: right; float: right;">
     <br>
-
     <figure>
         <img height='50%' src='fig/fig3.gif'/>
         <figcaption style="text-align: center;">[Source](https://www.davepagurek.com/blog/inverse-kinematics/)</figcaption>
     </figure>
     <!-- more Elements -->
   </div>
-
 </section>
 
 V:
 
 ## Requirements
 IK on interactive applications must be:
-* ** R1 Efficient **: Take as little time as possible 
+
+* ** R1 Efficient **:  Take as little time as possible  
 * ** R2 Accurate **: Reach the goal position / orientation
 * ** R3 Scalable **: Work with Big amounts of DOF 
-* ** R4 Able to manage constraints ** 
+* ** R4 Robust: ** Reach the goal when managing constraints  
 * ** R5 Able to Generate natural poses **
 * ** R6 Generic **: Deal with arbitrary Figures
 
@@ -169,7 +154,7 @@ V:
 |-----------|-----------|----------|----------|-------------|---------|---------|
 | Analitycal|     X     |     X    |    -     |      X      |    X    |    -    |
 | Numerical |     -     |     X    |    X     |      X      |    -    |    X    |
-| Heuristic |     X     |     X    |    X     |      X      |    X    |    X    |
+| ** Heuristic (FABRIK) ** |     X     |     X    |    X     |      -      |    X    |    X    |
 
 
 H:
@@ -181,7 +166,6 @@ V:
 ## Cyclic Coordinate Descent (CCD)
 Proposed by [Wang and Chen on 1991](http://web.cse.ohio-state.edu/~parent.1/classes/788/Sp06/ReferenceMaterial/IK/WC91.pdf)
 <section>
-
   <div style="text-align: justify-all; float: left; width: 50%">
   <br>
     <ul style="text-align: justify-all; font-size: 0.7em !important;">
@@ -191,14 +175,12 @@ Proposed by [Wang and Chen on 1991](http://web.cse.ohio-state.edu/~parent.1/clas
       <li> Modify each Joint configuration per iteration to reduce the error: </li>  
       $$ cos(\theta \_{i}) = \frac{ \mathbf{v\_{ it }} } { \left| \mathbf{v \_{ it }} \right| } \frac{ \mathbf{v \_{ie}} }{ \left| \mathbf{v\_ {ie}} \right| } , \mathbf{r} = \mathbf{v\_{ it }} \times \mathbf{v\_{ ie }}$$ 
     </ul>
-
   </div>
   <div style="text-align: right; float = right; width = 50%; height = 100%">
     <br>
     <iframe width="50%" height="300" src="https://www.youtube.com/embed/MvuO9ZHGr6k"></iframe>
     <!-- more Elements -->
   </div>
-
 </section>
 
 
@@ -209,16 +191,13 @@ V:
 Proposed by [Andreas Aristidou on 2009](http://www.andreasaristidou.com/publications/papers/FABRIK.pdf)
  
 <section>
-
   <div style="text-align: justify-all;  width: 100%">
   <br>
     <ul style="text-align: justify-all; font-size: 0.7em !important;">
       <li> Works on Positions Space. </li>
       <li> * "Minimize error by adjusting each joint angle one at a time". *  </li>
       <li> Move the structure while  keeping distances between Joints (bones are rigid) via * finding a point on a line *.  </li>  
-      
       Consider $ \mathbf{p}\_i$ the position of the $ ith $ joint in a chain, with $ i \in \\{ 1,2,...,n \\}$, $\mathbf{p}\_1$ the root of the chain, $\mathbf{p}\_n$ the end effector and $\mathbf{t}$ the target position.
-
       Let $ d\_i $ the distance between two consecutive joints:  $ d\_i = \left| \mathbf{p}\_i - \mathbf{p}\_{i+1} \right| $.
     </ul>
 </section>
@@ -252,14 +231,51 @@ V:
 ## FABRIK - PERFORMANCE
 
 
-<iframe width="420" height="345" src="https://www.youtube.com/embed/tN6RQ4yrNPU"></iframe>
+<iframe width="80%" height="450" src="https://www.youtube.com/embed/tN6RQ4yrNPU"></iframe>
 
 H:
 
-## Constraint by Projection
+## Using constraints
 
+<section style="text-align: left;">
+  <div style="float: left; width: 60%" >
+  <br>
+  <br>
+  <p style="text-align: left; font-size: 0.9em !important;">
+  Limiting locally the joint movement by enclosing its related segment on a volume.
+  </p>
+  <ul style=" padding-left:40px; text-align: left; font-size: 0.7em !important;">
+    <li>[Fast and Easy Reach-Cone Joint Limits](https://pdfs.semanticscholar.org/d535/e562effd08694821ea6a8a5769fe10ffb5b6.pdf)</li>
+    <li>[A joint-constraint model using signed distance fields](https://link.springer.com/article/10.1007/s11044-011-9296-1)</li>
+  </ul>
+  <p style="text-align: left; font-size: 0.9em !important;">
+  Using physical attributes.
+  </p>
+  <ul style=" padding-left:40px; text-align: left; font-size: 0.7em !important;">
+    <li> [An Efficient Energy Transfer Inverse Kinematics Solution](https://pdfs.semanticscholar.org/aac6/cbd168f0e01911edbe564f59d7c1a00b7535.pdf)</li>
+  </ul>
+  <p style="text-align: left; font-size: 0.9em !important;">
+  Locking a joint position or orientation.
+  </p>
+  <ul style=" padding-left:40px; text-align: left; font-size: 0.7em !important;">
+    <li> [Nailing and pinning: Adding constraints to inverse kinematics](https://otik.uk.zcu.cz/bitstream/11025/11239/1/Greeff.pdf)</li>
+  </ul>
+  </div>
+  <div style="text-align: middle; float = right; width = 50%; height = 100%">
+    <div style="text-align: middle; float: right;">
+      <br>
+      <br>
+      <figure>
+          <img width = 80% src='fig/fig7.png'/>
+      </figure>
+      <figure>
+          <img width = 80% src='fig/fig9.png'/>
+      </figure>
+      <!-- more Elements -->
+    </div>
+  </div>
 
-
+</section>
 
 
 H:
