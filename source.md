@@ -438,7 +438,7 @@ As discussed previously IK behavior depends greatly on imposed restrictions.
 	<iframe width="60%" height="500px" src="videos/constraints_demo.webm"></iframe>
 </div>
 
-H:
+V:
 
 ## Using constraints
 
@@ -456,8 +456,34 @@ public void addConeConstraint(Frame frame){
 }
 ```
 
+H:
 
+## Procedural Animation
 
+Fish - Flock
+
+<br>
+<br>
+<section>
+  <div style="text-align: justify-all; float: left; width: 50%" class=embed-container >
+  	BVH Demo
+    <iframe width="100%" height="500px" src="videos/fish_demo.webm"></iframe>
+  </div>
+  <div style="text-align: justify-all; float : left; width : 50%" class=embed-container >
+  	Collada Demo
+    <iframe width="100%" height="500px" src="videos/flock_demo.webm"></iframe>
+  </div>
+</section>
+
+V:
+
+## Procedural Animation
+
+Multilegged gait simulation
+
+<div style="text-align: justify-all;" class=embed-container >
+	<iframe width="60%" height="500px" src="videos/procedural_demo.webm"></iframe>
+</div>
 
 
 
