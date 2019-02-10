@@ -21,7 +21,7 @@ H:
 
 # Forward and Inverse Kinematics on Frames
 
-Sebastian Eduardo Chaparro Cuevas
+Sebastian Chaparro
 
 H:
 
@@ -32,7 +32,7 @@ H:
  3. Inverse Kinematics <!-- .element: class="fragment" data-fragment-index="3"-->
  4. IK Heuristic Methods <!-- .element: class="fragment" data-fragment-index="4"-->
  5. Using constraints <!-- .element: class="fragment" data-fragment-index="5"-->
- 6. IK on Frames <!-- .element: class="fragment" data-fragment-index="6"-->
+ 6. Adding IK on Frames <!-- .element: class="fragment" data-fragment-index="6"-->
 
 H:
 
@@ -179,7 +179,7 @@ Proposed by [Wang and Chen on 1991](http://web.cse.ohio-state.edu/~parent.1/clas
 <section>
   <div style="text-align: justify-all; float: left; width: 50%">
   <br>
-    <ul style="text-align: justify-all; font-size: 0.7em !important;">
+    <ul style="text-align: justify-all; font-size: 1em !important;">
       <li class="fragment"> Works only on Kinematic chains. </li>
   	  </br>
       <li class="fragment"> Let $ \mathbf{v\_{it}} $ the vector formed by the $ith$ joint and the target position (Red one). </li>
@@ -255,7 +255,7 @@ H:
 ## Using constraints
 
 <section style="text-align: left;">
-  <div style="float: left; width: 60%" >
+  <div style="float: left; width: 50%" >
   <br>
   <br>
   <p style="text-align: left; font-size: 0.9em !important;">
@@ -283,10 +283,10 @@ H:
       <br>
       <br>
       <figure>
-          <img width = 80% src='fig/fig7.png'/>
+          <img width = 100% src='fig/fig7.png'/>
       </figure>
       <figure>
-          <img width = 80% src='fig/fig9.png'/>
+          <img width = 100% src='fig/fig9.png'/>
       </figure>
       <!-- more Elements -->
     </div>
@@ -294,11 +294,182 @@ H:
 
 </section>
 
+H:
+
+# Adding IK on Frames (On development)
+
+H:
+
+## Setting the Skeleton model
+
+* We will consider a Skeleton as a Branch of the Graph Scene:
+
+	> " The _scene_ is a high-level [Processing](https://processing.org/) scene-graph handler "
+
+* The model is built by defining the initial configuration (position and orientation) of each Joint:
+
+	> " A _frame_ is a 2D/3D coordinate system "
+
+* Forward Kinematics is solved by transformation methods on _frame_ class.
+
+V:
+
+## Building explicitly the Skeleton model
+
+Skeleton model could be defined explicitly as the following example suggest:
+
+```java
+//Building a Y-Shape Structure on XY-Plane
+ World
+  ^
+  |\
+  1 eye
+  ^
+  |
+  2
+  |\
+  3 4
+
+// creates a hierarchy of 'attached-frames'
+float offset;
+...
+Frame f1 = new Frame(scene);
+Frame f2 = new Frame(f1);
+Frame f3 = new Frame(f2);
+Frame f4 = new Frame(f2);
+// set initial configuration
+f2.translate(0,offset,0);
+f3.translate(-offset,offset,0);
+f4.translate(offset,offset,0);
+```
+
+V: 
+
+## Getting Skeleton model from Data
+
+There are different kind of files as [Collada](https://www.khronos.org/collada/) or [BVH](https://research.cs.wisc.edu/graphics/Courses/cs-838-1999/Jeff/BVH.html) to "transport 3D assets between applications",  in particular Skeleton model.
+
+```java
+//Reading a Structure from BVH File
+BVHParser parser;
+public void setup(){
+	...
+    parser = new BVHParser(sketchPath() + path, scene, null);
+    Frame root = parser.root();
+    ...
+}
+
+public void draw() {
+	...
+    parser.nextPose(); 
+	...
+}
+
+```
+
+```java
+//Reading a Structure (Skeleton + Mesh) from Collada File
+AnimatedModel model;
+SkinningAnimationModel skinning;
+
+public void setup(){
+	...
+    model = ColladaLoader.loadColladaModel(sketchPath() + path, dae, tex, scene);
+    skinning = new SkinningAnimationModel(model);
+    ...
+}
+
+public void draw() {
+	...
+	//Binding Mesh and Skeleton
+    skinning.updateParams();
+    shader(skinning.shader);
+    shape(model.getModel());
+    resetShader();
+	...
+}
+
+```
+
+V: 
+
+
+## Getting Skeleton model from Data
+<br>
+<br>
+<section>
+  <div style="text-align: justify-all; float: left; width: 50%" class=embed-container >
+  	BVH Demo
+    <iframe width="100%" height="500px" src="videos/bvh_example.webm"></iframe>
+  </div>
+  <div style="text-align: justify-all; float : left; width : 50%" class=embed-container >
+  	Collada Demo
+    <iframe width="100%" height="500px" src="videos/dae_example.webm"></iframe>
+  </div>
+</section>
+
+
+V:
+
+## Setting the Skeleton model interactively
+
+Use interaction methods to allow the user to define Skeleton model easyly.
+
+
+<div style="text-align: justify-all;" class=embed-container >
+	<iframe width="60%" height="500px" src="videos/build_demo.webm"></iframe>
+</div>
+
+
+**Challenges**
+* Deal with depth information.
+
+* Deal with joint overlapping.
+
+* Allow to use non conventional HID.
+
+H:
+
+## Using constraints
+
+As discussed previously IK behavior depends greatly on imposed restrictions.
+
+<div style="text-align: justify-all;" class=embed-container >
+	<iframe width="60%" height="500px" src="videos/constraints_demo.webm"></iframe>
+</div>
+
+H:
+
+## Using constraints
+
+* It is proposed the use of Hinge and [Cones](https://www.semanticscholar.org/paper/Extending-FABRIK-with-model-constraints-Aristidou-Chrysanthou/2930b87488207274c377dcd327b5e996a18f299b) constraints to limit the movement of 1-DOF and 3-DOF rotational Joints respectively. In both cases is needed orientational information of the Joints.
+
+* IK constraints are added as common Frame constraints:
+
+```java
+public void addConeConstraint(Frame frame){
+    BallAndSocket constraint = new BallAndSocket(downAngle, upAngle, leftAngle, rightAngle);
+    Vector twist = frame.children().get(0).translation().get(); //Cone Axis
+    Vector up = Vector.orthogonalVector(twist); //Up direction
+    constraint.setRestRotation(frame.rotation(), up, twist);
+    frame.setConstraint(constraint);
+}
+```
+
+
+
+
+
+
 
 H:
 
 ## References
 
-* [CCD](https://sites.google.com/site/auraliusproject/ccd-algorithm)
-* [CCD Video](https://www.youtube.com/watch?v=MvuO9ZHGr6k)
-* [FABRIK](http://www.andreasaristidou.com/publications.html)
+* [Introduction to IK](https://www.math.ucsd.edu/~sbuss/ResearchWeb/ikmethods/index.html)
+
+* [Inverse Kinematics Techniques in Computer Graphics: A Survey](http://www.andreasaristidou.com/InverseKinematics.html)
+
+* [Forward and Backward Reaching Inverse Kinematics (FABRIK)](http://www.andreasaristidou.com/publications.html)
+
+* [Cyclic Coordinate Descent (CCD)](https://sites.google.com/site/auraliusproject/ccd-algorithm)
