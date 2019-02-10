@@ -45,32 +45,40 @@ H:
 
  * Here we focus on an abstraction of the Skeleton: A set of rigid multibody system called Bones (or links) attached by Joints. <!-- .element: class="fragment" data-fragment-index="3"-->
 
- 
-
 V:
 
 ## Skeleton
 
-<section>
-  <div style="text-align: justify-all; float: left; width: 50%">
-  <br>
-    <ul style="text-align: justify-all; font-size: 0.7em !important;">
-      <li class="fragment" data-fragment-index="1"> Is usually represented as a Hierarchical Structure </li>
-      <br>
-      <li class="fragment" data-fragment-index="2"> Joints are parametrized by Degrees of Fredom (DOF)</li>
-      <br>
-      <li class="fragment" data-fragment-index="3"> An end effector $\mathbf{s}$ is a point of interest that depends on joint configurations: $ \mathbf{s} = f(\mathbf{ \theta }) $ </li>
-    </ul>
-    <!-- more Elements -->
-  </div>
-  <div style="text-align: right; float: right;">
-    <figure>
-        <img height='50%' src='fig/fig1.png' />
-        <figcaption style="text-align: center;">[Source](https://www.jvrb.org/past-issues/8.2011/2819/figure01.jpg)</figcaption>
-    </figure>
-    <!-- more Elements -->
-  </div>
-</section>
+* Is usually represented as a Hierarchical Structure <!-- .element: class="fragment" data-fragment-index="1"-->
+
+* Joints are parametrized by Degrees of Fredom (DOF) <!-- .element: class="fragment" data-fragment-index="2"-->
+
+* An end effector $\mathbf{s}$ is a point of interest that depends on joint configurations: $ \mathbf{s} = f(\mathbf{ \theta }) $ <!-- .element: class="fragment" data-fragment-index="3"-->
+
+<figure class="fragment" data-fragment-index="4">
+    <img height='50%' src='fig/fig1.jpg'/>
+</figure>
+
+V:
+
+## Skinning
+
+* Skeleton model is used to define or modify Joint movements (e.g. [Keyframe animation](https://www.utdallas.edu/atec/midori/Handouts/keyframing.htm), [Procedural animation](https://www.alanzucconi.com/2017/04/17/procedural-animations/), [MoCap data](https://en.wikipedia.org/wiki/Motion_capture)).  
+<!-- .element: class="fragment" data-fragment-index="1"-->
+
+* Once motion is stablished, it is required to bind the Skeleton with a given 3D mesh.  <!-- .element: class="fragment" data-fragment-index="2"-->
+
+* To do so it is defined an influence that every joint has to each vertex of the model. Then, the vertex is moved accordingly. 
+<!-- .element: class="fragment" data-fragment-index="3"-->
+
+* Check this short example [video](https://youtu.be/YXDzMZaAo0U). 
+<!-- .element: class="fragment" data-fragment-index="4"-->
+
+<figure class="fragment" data-fragment-index="5">
+    <img height='50%' src='fig/fig2.jpg'/>
+    <figcaption style="text-align: center;">[Image source](http://www.csit.parkland.edu/~dbock/Class/csc189/Lecture/CharacterBinding.html)</figcaption>
+</figure>
+
 
 
 H:
@@ -80,7 +88,8 @@ H:
 <section>
   <div style="text-align: justify-all; float: left; width: 50%">
   <br>
-    <ul style="text-align: justify-all; font-size: 0.7em !important;">
+  <br>
+    <ul style="text-align: justify-all; font-size: 1em !important;">
       <li class="fragment" data-fragment-index="1"> Given the joint configurations $ \mathbf{ \theta }$ find the End effector Position $ \mathbf{s} = f(\mathbf{ \theta })$ </li>
       <br>
       <li class="fragment" data-fragment-index="2"> Direct joint manipulation </li>
@@ -92,16 +101,16 @@ H:
     </ul>
     <!-- more Elements -->
   </div>
-  <div style="text-align: right; float: right;">
+  <div style="text-align: right; float: right; width: 50%">
     <br>
     <figure>
-        <img height='50%' src='fig/fig2.gif'/>
-        <figcaption style="text-align: center;">[Source](https://www.davepagurek.com/blog/inverse-kinematics/)</figcaption>
+        <img width='65%' src='fig/fig2.gif' class="fragment" data-fragment-index="5">
+    	</img>
+        <figcaption class="fragment" data-fragment-index="5" style="text-align: right;">[Source](https://www.davepagurek.com/blog/inverse-kinematics/)</figcaption>
     </figure>
     <!-- more Elements -->
   </div>
 </section>
-
 
 H:
 
@@ -110,7 +119,8 @@ H:
 <section>
   <div style="text-align: justify-all; float: left; width: 50%">
   <br>
-    <ul style="text-align: justify-all; font-size: 0.7em !important;">
+  <br>
+    <ul style="text-align: justify-all; font-size: 1em !important;">
       <li class="fragment" data-fragment-index="1"> Given the state of the Final effector $ \mathbf{s} $ find joint configurations: $\mathbf{ \theta } = f^{-1}( \mathbf{ s}) $ </li>
       <br>
       <li class="fragment" data-fragment-index="2"> Indirect joint manipulation based on Goal Reaching </li>
@@ -124,11 +134,11 @@ H:
     </ul>
     <!-- more Elements -->
   </div>
-  <div style="text-align: middle; float: right;">
+  <div style="text-align: right; float: right; width: 50%">
     <br>
     <figure>
-        <img height='50%' src='fig/fig3.gif'/>
-        <figcaption style="text-align: center;">[Source](https://www.davepagurek.com/blog/inverse-kinematics/)</figcaption>
+        <img width='65%' src='fig/fig3.gif' class="fragment" data-fragment-index="5">
+        <figcaption class="fragment" data-fragment-index="5" style="text-align: right;">[Source](https://www.davepagurek.com/blog/inverse-kinematics/)</figcaption>
     </figure>
     <!-- more Elements -->
   </div>
@@ -137,28 +147,29 @@ H:
 V:
 
 ## Requirements
-IK on interactive applications must be:
 
-* ** R1 Efficient **:  Take as little time as possible  
-* ** R2 Accurate **: Reach the goal position / orientation
-* ** R3 Scalable **: Work with Big amounts of DOF 
-* ** R4 Robust: ** Reach the goal when managing constraints  
-* ** R5 Able to Generate natural poses **
-* ** R6 Generic **: Deal with arbitrary Figures
+IK on interactive applications must be:
+* R1 Efficient: Take as little time as possible 
+
+* R2 Accurate: Reach the goal position / orientation
+
+* R3 Scalable: Work with Big amounts of DOF
+
+* R4 Robust: Reach the goal when managing constraints 
+
+* R5 Able to Generate natural poses
+
+* R6 Generic: Deal with arbitrary Figures
 
 V:
-
 ## IK Methods
-
 | Kind      | R1 | R2 | R3 | R4 | R5 | R6 |
 |-----------|-----------|----------|----------|-------------|---------|---------|
 | Analitycal|     X     |     X    |    -     |      X      |    X    |    -    |
 | Numerical |     -     |     X    |    X     |      X      |    -    |    X    |
-| ** Heuristic (FABRIK) ** |     X     |     X    |    X     |      -      |    X    |    X    |
-
+| ** Numerical Heuristic (FABRIK) ** |     X     |     X    |    X     |      -      |    X    |    X    |
 
 H:
-
 # IK Heuristic Methods
 
 V: 
@@ -169,16 +180,22 @@ Proposed by [Wang and Chen on 1991](http://web.cse.ohio-state.edu/~parent.1/clas
   <div style="text-align: justify-all; float: left; width: 50%">
   <br>
     <ul style="text-align: justify-all; font-size: 0.7em !important;">
-      <li> Works only on Kinematic chains. </li>
-      <li> Let $ \mathbf{v\_{it}} $ the vector formed by the $ith$ joint and the target position (Red one). </li>
-      <li> Let $ \mathbf{v\_{ie}} $ the vector formed by the $ith$ joint and the end effector position (Yellow one). </li>
-      <li> Modify each Joint configuration per iteration to reduce the error: </li>  
+      <li class="fragment"> Works only on Kinematic chains. </li>
+  	  </br>
+      <li class="fragment"> Let $ \mathbf{v\_{it}} $ the vector formed by the $ith$ joint and the target position (Red one). </li>
+  	  </br>
+      <li class="fragment"> Let $ \mathbf{v\_{ie}} $ the vector formed by the $ith$ joint and the end effector position (Yellow one). </li>
+  	  </br>
+      <li class="fragment"> Modify each Joint configuration per iteration to reduce the error: </li>  
+  	  </br>
+  	  <div class="fragment">
       $$ cos(\theta \_{i}) = \frac{ \mathbf{v\_{ it }} } { \left| \mathbf{v \_{ it }} \right| } \frac{ \mathbf{v \_{ie}} }{ \left| \mathbf{v\_ {ie}} \right| } , \mathbf{r} = \mathbf{v\_{ it }} \times \mathbf{v\_{ ie }}$$ 
+	  </div>
     </ul>
   </div>
-  <div style="text-align: right; float = right; width = 50%; height = 100%">
+  <div style="text-align: right; float = right; width = 50%; height = 100%" class=embed-container >
     <br>
-    <iframe width="50%" height="300" src="https://www.youtube.com/embed/MvuO9ZHGr6k"></iframe>
+    <iframe class="fragment" width="50%" height="500px" src="https://www.youtube.com/embed/MvuO9ZHGr6k"></iframe>
     <!-- more Elements -->
   </div>
 </section>
@@ -189,49 +206,49 @@ V:
 
 ## Forward and Backward Reaching Inverse Kinematics (FABRIK)
 Proposed by [Andreas Aristidou on 2009](http://www.andreasaristidou.com/publications/papers/FABRIK.pdf)
- 
 <section>
-  <div style="text-align: justify-all;  width: 100%">
+  <div style="text-align: justify-all;  width: 100%"/>
   <br>
-    <ul style="text-align: justify-all; font-size: 0.7em !important;">
-      <li> Works on Positions Space. </li>
-      <li> * "Minimize error by adjusting each joint angle one at a time". *  </li>
-      <li> Move the structure while  keeping distances between Joints (bones are rigid) via * finding a point on a line *.  </li>  
-      Consider $ \mathbf{p}\_i$ the position of the $ ith $ joint in a chain, with $ i \in \\{ 1,2,...,n \\}$, $\mathbf{p}\_1$ the root of the chain, $\mathbf{p}\_n$ the end effector and $\mathbf{t}$ the target position.
+    <ul style="text-align: justify-all; font-size: 1em !important;">
+      <li> Works on Positions Space. </li> 
+  	  </br>
+      <li> "Minimize error by adjusting each joint angle one at a time". </li>
+      </br>
+      <li> Move the structure while  keeping distances between Joints (bones are rigid) via finding a point on a line.  </li>
+      </br>
+      </br> 
+      <div>Consider $ \mathbf{p}\_i$ the position of the $ ith $ joint in a chain, with $ i \in \\{ 1,2,...,n \\}$, $\mathbf{p}\_1$ the root of the chain, $\mathbf{p}\_n$ the end effector and $\mathbf{t}$ the target position.
       Let $ d\_i $ the distance between two consecutive joints:  $ d\_i = \left| \mathbf{p}\_i - \mathbf{p}\_{i+1} \right| $.
+      </div>
     </ul>
 </section>
 
 V:
 ## FABRIK - FULL ITERATION
 
+<div style="text-align: justify-all; float: left; width: 33%">
 <figure>
-    <img height='90%' src='fig/fig4.png' />
+    <img height='80%' src='fig/fig4.png' />
+</figure>
+</div>
+<div style="text-align: justify-all; float: left; width: 33%">
+<figure>
+    <img height='80%' src='fig/fig5.png' />
     <figcaption>[Click for more info](http://www.andreasaristidou.com/publications/papers/FABRIK.pdf) </figcaption>
 </figure>
-
-V:
-## FABRIK - FULL ITERATION
-
+</div>
+<div style="text-align: justify-all; float: left; width: 33%">
 <figure>
-    <img height='90%' src='fig/fig5.png' />
-    <figcaption>[Click for more info](http://www.andreasaristidou.com/publications/papers/FABRIK.pdf) </figcaption>
+    <img height='80%' src='fig/fig6.png' />
 </figure>
+</div>
 
 V:
-## FABRIK - FULL ITERATION
-
-<figure>
-    <img height='90%' src='fig/fig6.png' />
-    <figcaption>[Click for more info](http://www.andreasaristidou.com/publications/papers/FABRIK.pdf) </figcaption>
-</figure>
-
-V:
-
 ## FABRIK - PERFORMANCE
+<div style="text-align: center; height = 100%" class=embed-container>
+	<iframe width="80%" height="500px" src="https://www.youtube.com/embed/tN6RQ4yrNPU"></iframe>
+</div>
 
-
-<iframe width="80%" height="450" src="https://www.youtube.com/embed/tN6RQ4yrNPU"></iframe>
 
 H:
 
