@@ -428,7 +428,7 @@ Use interaction methods to allow the user to define Skeleton model easyly.
 
 * Allow to use non conventional HID.
 
-H:
+V:
 
 ## Using constraints
 
@@ -456,6 +456,112 @@ public void addConeConstraint(Frame frame){
 }
 ```
 
+**Challenges**
+* Deal with twist information.
+
+
+H:
+
+## Adding IK Behavior to a Skeleton structure
+
+* It is desired to allow easy implementation and comparison of different kind of iterative Solvers (e.g CCD, FABRIK, SDLS, ...).
+
+* Each solver must extends the Solver class. The behavior of a solver is determined by the following algorithm:
+
+```java
+  public boolean solve() {
+    //If either Targets or Structure change
+    if (_changed() || change_temp) {
+      _reset();
+    }
+
+    if (iterations >= maxIter) {
+      return true;
+    }
+
+
+    frameCounter += timesPerFrame;
+
+    while (Math.floor(frameCounter) > 0) {
+      //Returns a boolean that indicates if a termination condition has been accomplished
+      if (_iterate()) { //Perform a solver step
+        iterations = maxIter;
+        break;
+      } else iterations += 1;
+      frameCounter -= 1;
+    }
+    //update structure
+    _update();
+    return false;
+  }
+```
+
+V:
+
+## Adding IK Behavior to a Skeleton structure
+
+* When using a Solver there are some parameters that must be set:
+
+```java
+  //Default params
+  Solver solver = ...;
+  solver.error = 0.01f;
+  solver.maxIter = 200;
+  solver.minDistance = 0.1f;
+  solver.timesPerFrame = 5.f;
+```
+
+
+V:
+
+## Adding IK Behavior to a Scene branch
+
+* Default solver in Frames is TreeSolver (Based on FABRIK to structures with Multiple End Effectors) 
+* It is possible to add IK Behavior to a whole scene Branch.
+* It is possible to add a target to any of this Branch Leaves.
+
+```java
+  //Setting Skeleton 
+  Frame root = new Frame(scene);
+  Frame[] endEffector, target; 
+  ...
+  //Adding IK behavior
+  solver = scene.registerTreeSolver(root);
+  //Add Targets
+  for(int i = 0; i < endEffector.length; i++){
+    scene.addIKTarget(endEffector[i], target[i]);
+  }
+```
+
+V:
+
+## Visual Benchmarking
+<br>
+<br>
+<div style="text-align: justify-all; float: left; height: 70%; width: 100%" class=embed-container >
+  <iframe width="100%" height="500px" src="videos/benchmark.webm"></iframe>
+</div>
+
+
+H:
+
+## Building & Interacting
+
+<br>
+<br>
+<section>
+  <div style="text-align: justify-all; float: left; width: 50%" class=embed-container >
+    Saying HI!
+    <iframe width="100%" height="500px" src="videos/demo_2.webm"></iframe>
+  </div>
+  <div style="text-align: justify-all; float : left; width : 50%" class=embed-container >
+    Multiple end Effectors
+    <iframe width="100%" height="500px" src="videos/demo_skeleton.webm"></iframe>
+  </div>
+</section>
+
+
+
 H:
 
 ## Procedural Animation
@@ -466,11 +572,11 @@ Fish - Flock
 <br>
 <section>
   <div style="text-align: justify-all; float: left; width: 50%" class=embed-container >
-  	BVH Demo
+  	Fish Demo
     <iframe width="100%" height="500px" src="videos/fish_demo.webm"></iframe>
   </div>
   <div style="text-align: justify-all; float : left; width : 50%" class=embed-container >
-  	Collada Demo
+  	Flock Demo
     <iframe width="100%" height="500px" src="videos/flock_demo.webm"></iframe>
   </div>
 </section>
