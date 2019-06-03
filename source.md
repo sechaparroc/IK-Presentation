@@ -79,12 +79,9 @@ V:
     <figcaption style="text-align: center;">[Image source](http://www.csit.parkland.edu/~dbock/Class/csc189/Lecture/CharacterBinding.html)</figcaption>
 </figure>
 
-
-
 H:
 
 ## Forward Kinematics (FK)
-
 <section>
   <div style="text-align: justify-all; float: left; width: 50%">
   <br>
@@ -99,16 +96,10 @@ H:
       <li class="fragment" data-fragment-index="4"> Not Redundant </li>
       <br>
     </ul>
-    <!-- more Elements -->
   </div>
-  <div style="text-align: right; float: right; width: 50%">
+  <div style="text-align: justify-all; float : left; width : 50%" class=embed-container >
     <br>
-    <figure>
-        <img width='65%' src='fig/fig2.gif' class="fragment" data-fragment-index="5">
-    	</img>
-        <figcaption class="fragment" data-fragment-index="5" style="text-align: right;">[Source](https://www.davepagurek.com/blog/inverse-kinematics/)</figcaption>
-    </figure>
-    <!-- more Elements -->
+    <iframe width="100%" height="500px" src="videos/FK.webm"></iframe>
   </div>
 </section>
 
@@ -134,13 +125,10 @@ H:
     </ul>
     <!-- more Elements -->
   </div>
-  <div style="text-align: right; float: right; width: 50%">
+  <div style="text-align: justify-all; float : left; width : 50%" class=embed-container >
     <br>
-    <figure>
-        <img width='65%' src='fig/fig3.gif' class="fragment" data-fragment-index="5">
-        <figcaption class="fragment" data-fragment-index="5" style="text-align: right;">[Source](https://www.davepagurek.com/blog/inverse-kinematics/)</figcaption>
-    </figure>
-    <!-- more Elements -->
+    <br>
+    <iframe width="100%" height="500px" src="videos/IK.webm"></iframe>
   </div>
 </section>
 
