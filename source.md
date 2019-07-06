@@ -19,7 +19,7 @@
 
 H:
 
-# Forward and Inverse Kinematics on Frames
+# Kinematics on nub
 
 Sebastian Chaparro
 
@@ -27,7 +27,7 @@ H:
 
 # Index
 
- 1. Skeletal Animation<!-- .element: class="fragment" data-fragment-index="1"-->
+ 1. Introduction<!-- .element: class="fragment" data-fragment-index="1"-->
  2. Forward Kinematics<!-- .element: class="fragment" data-fragment-index="2"-->
  3. Inverse Kinematics <!-- .element: class="fragment" data-fragment-index="3"-->
  4. IK Heuristic Methods <!-- .element: class="fragment" data-fragment-index="4"-->
@@ -36,48 +36,54 @@ H:
 
 H:
 
-## Skeletal animation 
+## Introduction
 
 
- * How to make a living Figure in 2D or 3D? <!-- .element: class="fragment" data-fragment-index="1"-->
- 
- * A rigorous simulation should consider Bones, Muscles, Joints, Tendons, Ligaments and Cartilages. <!-- .element: class="fragment" data-fragment-index="2"-->
+ * How to bring to life animated objects? <!-- .element: class="fragment" data-fragment-index="1"-->
 
- * Here we focus on an abstraction of the Skeleton: A set of rigid multibody system called Bones (or links) attached by Joints. <!-- .element: class="fragment" data-fragment-index="3"-->
+ * One approach is [skeletal animation](https://en.wikipedia.org/wiki/Skeletal_animation) where the object to animae is represented by a skeleton and a skin.
+ <!-- .element: class="fragment" data-fragment-index="2"-->  
+
 
 V:
 
 ## Skeleton
 
-* Is usually represented as a Hierarchical Structure <!-- .element: class="fragment" data-fragment-index="1"-->
-
-* Joints are parametrized by Degrees of Fredom (DOF) <!-- .element: class="fragment" data-fragment-index="2"-->
+* Set of rigid multibody system called Bones (or links) attached by Joints. A Skeleton usually is represented as a Hierarchical structure. <!-- .element: class="fragment" data-fragment-index="1"--> 
+* Joints are parametrized by Degrees of Fredom (DOF). <!-- .element: class="fragment" data-fragment-index="2"--> 
 
 * An end effector $\mathbf{s}$ is a point of interest that depends on joint configurations: $ \mathbf{s} = f(\mathbf{ \theta }) $ <!-- .element: class="fragment" data-fragment-index="3"-->
+* <!-- .element: class="fragment" data-fragment-index="4"--> Skeleton is used to define or modify movements (e.g. [Keyframe animation](https://www.utdallas.edu/atec/midori/Handouts/keyframing.htm), [Procedural animation](https://www.alanzucconi.com/2017/04/17/procedural-animations/), [MoCap data](https://en.wikipedia.org/wiki/Motion_capture)). 
 
-<figure class="fragment" data-fragment-index="4">
-    <img height='50%' src='fig/fig1.jpg'/>
-</figure>
+
 
 V:
 
-## Skinning
+<figure class="fragment" data-fragment-index="4">
+    <img data-src='fig/fig1.jpg'/>
+</figure>
 
-* Skeleton model is used to define or modify Joint movements (e.g. [Keyframe animation](https://www.utdallas.edu/atec/midori/Handouts/keyframing.htm), [Procedural animation](https://www.alanzucconi.com/2017/04/17/procedural-animations/), [MoCap data](https://en.wikipedia.org/wiki/Motion_capture)).  
+
+V:
+
+## Skin
+
+* Once motion is stablished, it is required to bind the skeleton with a surface (2D or 3D mesh).  
 <!-- .element: class="fragment" data-fragment-index="1"-->
 
-* Once motion is stablished, it is required to bind the Skeleton with a given 3D mesh.  <!-- .element: class="fragment" data-fragment-index="2"-->
+* The motion of the skeleton must deform the mesh smoothly (sking around the bones strechs and shrinks).
+<!-- .element: class="fragment" data-fragment-index="2"-->
 
-* To do so it is defined an influence that every joint has to each vertex of the model. Then, the vertex is moved accordingly. 
+* To do so for each vertex of the mesh is defined an influence weight per skeleton joint. The vertex is deformed according to joint transformations. 
 <!-- .element: class="fragment" data-fragment-index="3"-->
 
 * Check this short example [video](https://youtu.be/YXDzMZaAo0U). 
 <!-- .element: class="fragment" data-fragment-index="4"-->
 
-<figure class="fragment" data-fragment-index="5">
-    <img height='50%' src='fig/fig2.jpg'/>
-    <figcaption style="text-align: center;">[Image source](http://www.csit.parkland.edu/~dbock/Class/csc189/Lecture/CharacterBinding.html)</figcaption>
-</figure>
+V:
+
+## Skinning
+<iframe width="100%" height="500px" data-src="videos/Skinning.webm"></iframe>
 
 H:
 
@@ -99,7 +105,8 @@ H:
   </div>
   <div style="text-align: justify-all; float : left; width : 50%" class=embed-container >
     <br>
-    <iframe width="100%" height="500px" src="videos/FK.webm"></iframe>
+    <br>
+    <iframe class="fragment" data-fragment-index="5" width="100%" height="500px" data-src="videos/FK.webm"></iframe>
   </div>
 </section>
 
@@ -109,8 +116,6 @@ H:
 
 <section>
   <div style="text-align: justify-all; float: left; width: 50%">
-  <br>
-  <br>
     <ul style="text-align: justify-all; font-size: 1em !important;">
       <li class="fragment" data-fragment-index="1"> Given the state of the Final effector $ \mathbf{s} $ find joint configurations: $\mathbf{ \theta } = f^{-1}( \mathbf{ s}) $ </li>
       <br>
@@ -127,8 +132,7 @@ H:
   </div>
   <div style="text-align: justify-all; float : left; width : 50%" class=embed-container >
     <br>
-    <br>
-    <iframe width="100%" height="500px" src="videos/IK.webm"></iframe>
+    <iframe class="fragment" data-fragment-index="6" width="100%" height="500px" data-src="videos/IK.webm"></iframe>
   </div>
 </section>
 
@@ -137,17 +141,17 @@ V:
 ## Requirements
 
 IK on interactive applications must be:
-* R1 Efficient: Take as little time as possible 
+* R1 Efficient: Take as little time as possible.
+ 
+* R2 Accurate: Reach the goal position / orientation.
 
-* R2 Accurate: Reach the goal position / orientation
+* R3 Scalable: Work with Big amounts of DOF. 
 
-* R3 Scalable: Work with Big amounts of DOF
+* R4 Robust: Reach the goal when managing constraints.
 
-* R4 Robust: Reach the goal when managing constraints 
+* R5 Able to Generate natural poses.
 
-* R5 Able to Generate natural poses
-
-* R6 Generic: Deal with arbitrary Figures
+* R6 Generic: Deal with arbitrary Figures.
 
 V:
 ## IK Methods
@@ -161,82 +165,48 @@ H:
 # IK Heuristic Methods
 
 V: 
-
 ## Cyclic Coordinate Descent (CCD)
 Proposed by [Wang and Chen on 1991](http://web.cse.ohio-state.edu/~parent.1/classes/788/Sp06/ReferenceMaterial/IK/WC91.pdf)
+
 <section>
-  <div style="text-align: justify-all; float: left; width: 50%">
+  <div style="text-align: justify-all;">
   <br>
     <ul style="text-align: justify-all; font-size: 1em !important;">
-      <li class="fragment"> Works only on Kinematic chains. </li>
-  	  </br>
-      <li class="fragment"> Let $ \mathbf{v\_{it}} $ the vector formed by the $ith$ joint and the target position (Red one). </li>
-  	  </br>
-      <li class="fragment"> Let $ \mathbf{v\_{ie}} $ the vector formed by the $ith$ joint and the end effector position (Yellow one). </li>
-  	  </br>
-      <li class="fragment"> Modify each Joint configuration per iteration to reduce the error: </li>  
-  	  </br>
-  	  <div class="fragment">
+      <li class="fragment" data-fragment-index="1"> Works only on Kinematic chains. </li>
+      <li class="fragment" data-fragment-index="2"> Let $ \mathbf{v\_{ie}} $ the vector formed by the $ith$ joint and the end effector position (Yellow one). </li>
+      <li class="fragment" data-fragment-index="3"> Let $ \mathbf{v\_{it}} $ the vector formed by the $ith$ joint and the target position (Green one). </li>
+      <li class="fragment" data-fragment-index="4"> Modify each Joint configuration per iteration to reduce the error: </li>  
+  	  <div class="fragment" data-fragment-index="5">
       $$ cos(\theta \_{i}) = \frac{ \mathbf{v\_{ it }} } { \left| \mathbf{v \_{ it }} \right| } \frac{ \mathbf{v \_{ie}} }{ \left| \mathbf{v\_ {ie}} \right| } , \mathbf{r} = \mathbf{v\_{ it }} \times \mathbf{v\_{ ie }}$$ 
-	  </div>
+	    </div>
     </ul>
-  </div>
-  <div style="text-align: right; float = right; width = 50%; height = 100%" class=embed-container >
-    <br>
-    <iframe class="fragment" width="50%" height="500px" src="https://www.youtube.com/embed/MvuO9ZHGr6k"></iframe>
-    <!-- more Elements -->
   </div>
 </section>
 
-
+V:
+## Cyclic Coordinate Descent (CCD)
+<iframe width="100%" height="500px" src="videos/CCD_Solver_1.webm"></iframe>
 
 V: 
-
 ## Forward and Backward Reaching Inverse Kinematics (FABRIK)
 Proposed by [Andreas Aristidou on 2009](http://www.andreasaristidou.com/publications/papers/FABRIK.pdf)
 <section>
-  <div style="text-align: justify-all;  width: 100%"/>
+  <div style="text-align: justify-all;">
   <br>
     <ul style="text-align: justify-all; font-size: 1em !important;">
       <li> Works on Positions Space. </li> 
-  	  </br>
       <li> "Minimize error by adjusting each joint angle one at a time". </li>
-      </br>
-      <li> Move the structure while  keeping distances between Joints (bones are rigid) via finding a point on a line.  </li>
-      </br>
-      </br> 
+      <li> Move the structure while  keeping distances between Joints (bones are rigid) via finding a point on a line. </li>
       <div>Consider $ \mathbf{p}\_i$ the position of the $ ith $ joint in a chain, with $ i \in \\{ 1,2,...,n \\}$, $\mathbf{p}\_1$ the root of the chain, $\mathbf{p}\_n$ the end effector and $\mathbf{t}$ the target position.
       Let $ d\_i $ the distance between two consecutive joints:  $ d\_i = \left| \mathbf{p}\_i - \mathbf{p}\_{i+1} \right| $.
       </div>
     </ul>
+  </div>
 </section>
 
 V:
-## FABRIK - FULL ITERATION
-
-<div style="text-align: justify-all; float: left; width: 33%">
-<figure>
-    <img height='80%' src='fig/fig4.png' />
-</figure>
-</div>
-<div style="text-align: justify-all; float: left; width: 33%">
-<figure>
-    <img height='80%' src='fig/fig5.png' />
-    <figcaption>[Click for more info](http://www.andreasaristidou.com/publications/papers/FABRIK.pdf) </figcaption>
-</figure>
-</div>
-<div style="text-align: justify-all; float: left; width: 33%">
-<figure>
-    <img height='80%' src='fig/fig6.png' />
-</figure>
-</div>
-
-V:
-## FABRIK - PERFORMANCE
-<div style="text-align: center; height = 100%" class=embed-container>
-	<iframe width="80%" height="500px" src="https://www.youtube.com/embed/tN6RQ4yrNPU"></iframe>
-</div>
-
+## FABRIK
+<iframe width="100%" height="500px" src="videos/FABRIK_Solver_1.webm"></iframe>
 
 H:
 
