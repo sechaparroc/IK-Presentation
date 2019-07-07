@@ -32,7 +32,7 @@ H:
  3. Inverse Kinematics <!-- .element: class="fragment" data-fragment-index="3"-->
  4. IK Heuristic Methods <!-- .element: class="fragment" data-fragment-index="4"-->
  5. Using constraints <!-- .element: class="fragment" data-fragment-index="5"-->
- 6. Adding IK on Frames <!-- .element: class="fragment" data-fragment-index="6"-->
+ 6. Demos <!-- .element: class="fragment" data-fragment-index="6"-->
 
 H:
 
@@ -83,7 +83,7 @@ V:
 V:
 
 ## Skinning
-<iframe width="100%" height="500px" src="videos/Skinning.webm"></iframe>
+<iframe width="100%" height="500px" data-src="videos/Skinning.webm"></iframe>
 
 H:
 
@@ -106,7 +106,7 @@ H:
   <div style="text-align: justify-all; float : left; width : 50%" class=embed-container >
     <br>
     <br>
-    <iframe class="fragment" data-fragment-index="5" width="100%" height="500px" src="videos/FK.webm"></iframe>
+    <iframe class="fragment" data-fragment-index="5" width="100%" height="500px" data-src="videos/FK.webm"></iframe>
   </div>
 </section>
 
@@ -130,7 +130,7 @@ H:
   </div>
   <div style="text-align: justify-all; float : left; width : 50%" class=embed-container >
     <br>
-    <iframe class="fragment" data-fragment-index="6" width="100%" height="500px" src="videos/IK.webm"></iframe>
+    <iframe class="fragment" data-fragment-index="6" width="100%" height="500px" data-src="videos/IK.webm"></iframe>
   </div>
 
 V:
@@ -180,7 +180,7 @@ Proposed by [Wang and Chen on 1991](http://web.cse.ohio-state.edu/~parent.1/clas
 
 V:
 ## Cyclic Coordinate Descent (CCD)
-<iframe width="100%" height="500px" src="videos/CCD_Solver_1.webm"></iframe>
+<iframe width="100%" height="500px" data-src="videos/CCD_Solver_1.webm"></iframe>
 
 V: 
 ## Forward and Backward Reaching Inverse Kinematics (FABRIK)
@@ -202,7 +202,7 @@ Proposed by [Andreas Aristidou on 2009](http://www.andreasaristidou.com/publicat
 
 V:
 ## FABRIK
-<iframe width="100%" height="500px" src="videos/FABRIK_Solver_1.webm"></iframe>
+<iframe width="100%" height="500px" data-src="videos/FABRIK_Solver_1.webm"></iframe>
 
 H:
 ## Using constraints
@@ -218,7 +218,7 @@ H:
   </div>
   <div style="text-align: justify-all; float : left; width : 50%" class=embed-container >
     <br>
-    <iframe class="fragment" data-fragment-index="4" width="100%" height="500px" src="videos/multiple_solutions.webm"></iframe>
+    <iframe class="fragment" data-fragment-index="4" width="100%" height="500px" data-src="videos/multiple_solutions.webm"></iframe>
   </div>
 
 V:
@@ -247,10 +247,10 @@ V:
   <div style="text-align: middle; float = right; width = 50%; height = 100%">
     <div style="text-align: middle; float: right;">
       <figure class="fragment" data-fragment-index="1">
-          <img width = 80% src='fig/fig7.png'/>
+          <img width = 80% data-src='fig/fig7.png'/>
       </figure>
       <figure class="fragment" data-fragment-index="3">
-          <img width = 80% src='fig/fig9.png'/>
+          <img width = 80% data-src='fig/fig9.png'/>
       </figure>
       <!-- more Elements -->
     </div>
@@ -270,256 +270,18 @@ V:
   </div>
   <div style="text-align: justify-all; float : left; width : 50%" class=embed-container >
     <br>
-    <iframe class="fragment" data-fragment-index="5" width="100%" height="500px" src="videos/constraint_1.webm"></iframe>
+    <iframe class="fragment" data-fragment-index="5" width="100%" height="500px" data-src="videos/constraint_1.webm"></iframe>
   </div>
-
-H:
-
-# Adding IK on Frames (On development)
-
-H:
-
-## Setting the Skeleton model
-
-* We will consider a Skeleton as a Branch of the Graph Scene:
-
-	> " The _scene_ is a high-level [Processing](https://processing.org/) scene-graph handler "
-
-* The model is built by defining the initial configuration (position and orientation) of each Joint:
-
-	> " A _frame_ is a 2D/3D coordinate system "
-
-* Forward Kinematics is solved by transformation methods on _frame_ class.
-
-V:
-
-## Building explicitly the Skeleton model
-
-Skeleton model could be defined explicitly as the following example suggest:
-
-```java
-//Building a Y-Shape Structure on XY-Plane
- World
-  ^
-  |\
-  1 eye
-  ^
-  |
-  2
-  |\
-  3 4
-
-// creates a hierarchy of 'attached-frames'
-float offset;
-...
-Frame f1 = new Frame(scene);
-Frame f2 = new Frame(f1);
-Frame f3 = new Frame(f2);
-Frame f4 = new Frame(f2);
-// set initial configuration
-f2.translate(0,offset,0);
-f3.translate(-offset,offset,0);
-f4.translate(offset,offset,0);
-```
 
 V: 
-
-## Getting Skeleton model from Data
-
-There are different kind of files as [Collada](https://www.khronos.org/collada/) or [BVH](https://research.cs.wisc.edu/graphics/Courses/cs-838-1999/Jeff/BVH.html) to "transport 3D assets between applications",  in particular Skeleton model.
-
-```java
-//Reading a Structure from BVH File
-BVHParser parser;
-public void setup(){
-	...
-    parser = new BVHParser(sketchPath() + path, scene, null);
-    Frame root = parser.root();
-    ...
-}
-
-public void draw() {
-	...
-    parser.nextPose(); 
-	...
-}
-
-```
-
-```java
-//Reading a Structure (Skeleton + Mesh) from Collada File
-AnimatedModel model;
-SkinningAnimationModel skinning;
-
-public void setup(){
-	...
-    model = ColladaLoader.loadColladaModel(sketchPath() + path, dae, tex, scene);
-    skinning = new SkinningAnimationModel(model);
-    ...
-}
-
-public void draw() {
-	...
-	//Binding Mesh and Skeleton
-    skinning.updateParams();
-    shader(skinning.shader);
-    shape(model.getModel());
-    resetShader();
-	...
-}
-
-```
+## Hinge constraint
+1-DOF rotational constraint. i.e the node will rotate only around a single direction. Furthermore, the rotation made by the constrained node is enclosed on a minimum and maximum angle.
+<iframe width="100%" height="400px" data-src="videos/hinge_interactive.webm"></iframe>
 
 V: 
-
-
-## Getting Skeleton model from Data
-<br>
-<br>
-<section>
-  <div style="text-align: justify-all; float: left; width: 50%" class=embed-container >
-  	BVH Demo
-    <iframe width="100%" height="500px" src="videos/bvh_example.webm"></iframe>
-  </div>
-  <div style="text-align: justify-all; float : left; width : 50%" class=embed-container >
-  	Collada Demo
-    <iframe width="100%" height="500px" src="videos/dae_example.webm"></iframe>
-  </div>
-</section>
-
-
-V:
-
-## Setting the Skeleton model interactively
-
-Use interaction methods to allow the user to define Skeleton model easyly.
-
-
-<div style="text-align: justify-all;" class=embed-container >
-	<iframe width="60%" height="500px" src="videos/build_demo.webm"></iframe>
-</div>
-
-
-**Challenges**
-* Deal with depth information.
-
-* Deal with joint overlapping.
-
-* Allow to use non conventional HID.
-
-V:
-
-## Using constraints
-
-As discussed previously IK behavior depends greatly on imposed restrictions.
-
-<div style="text-align: justify-all;" class=embed-container >
-	<iframe width="60%" height="500px" src="videos/constraints_demo.webm"></iframe>
-</div>
-
-V:
-
-## Using constraints
-
-* It is proposed the use of Hinge and [Cones](https://www.semanticscholar.org/paper/Extending-FABRIK-with-model-constraints-Aristidou-Chrysanthou/2930b87488207274c377dcd327b5e996a18f299b) constraints to limit the movement of 1-DOF and 3-DOF rotational Joints respectively. In both cases is needed orientational information of the Joints.
-
-* IK constraints are added as common Frame constraints:
-
-```java
-public void addConeConstraint(Frame frame){
-    BallAndSocket constraint = new BallAndSocket(downAngle, upAngle, leftAngle, rightAngle);
-    Vector twist = frame.children().get(0).translation().get(); //Cone Axis
-    Vector up = Vector.orthogonalVector(twist); //Up direction
-    constraint.setRestRotation(frame.rotation(), up, twist);
-    frame.setConstraint(constraint);
-}
-```
-
-**Challenges**
-* Deal with twist information.
-
-
-H:
-
-## Adding IK Behavior to a Skeleton structure
-
-* It is desired to allow easy implementation and comparison of different kind of iterative Solvers (e.g CCD, FABRIK, SDLS, ...).
-
-* Each solver must extends the Solver class. The behavior of a solver is determined by the following algorithm:
-
-```java
-  public boolean solve() {
-    //If either Targets or Structure change
-    if (_changed() || change_temp) {
-      _reset();
-    }
-
-    if (iterations >= maxIter) {
-      return true;
-    }
-
-
-    frameCounter += timesPerFrame;
-
-    while (Math.floor(frameCounter) > 0) {
-      //Returns a boolean that indicates if a termination condition has been accomplished
-      if (_iterate()) { //Perform a solver step
-        iterations = maxIter;
-        break;
-      } else iterations += 1;
-      frameCounter -= 1;
-    }
-    //update structure
-    _update();
-    return false;
-  }
-```
-
-V:
-
-## Adding IK Behavior to a Skeleton structure
-
-* When using a Solver there are some parameters that must be set:
-
-```java
-  //Default params
-  Solver solver = ...;
-  solver.error = 0.01f;
-  solver.maxIter = 200;
-  solver.minDistance = 0.1f;
-  solver.timesPerFrame = 5.f;
-```
-
-
-V:
-
-## Adding IK Behavior to a Scene branch
-
-* Default solver in Frames is TreeSolver (Based on FABRIK to structures with Multiple End Effectors) 
-* It is possible to add IK Behavior to a whole scene Branch.
-* It is possible to add a target to any of this Branch Leaves.
-
-```java
-  //Setting Skeleton 
-  Frame root = new Frame(scene);
-  Frame[] endEffector, target; 
-  ...
-  //Adding IK behavior
-  solver = scene.registerTreeSolver(root);
-  //Add Targets
-  for(int i = 0; i < endEffector.length; i++){
-    scene.addIKTarget(endEffector[i], target[i]);
-  }
-```
-
-V:
-
-## Visual Benchmarking
-<br>
-<br>
-<div style="text-align: justify-all; float: left; height: 70%; width: 100%" class=embed-container >
-  <iframe width="100%" height="500px" src="videos/benchmark.webm"></iframe>
-</div>
+## Ball and socket constraint
+3-DOF rotational constraint (the node could rotate around any direction) that decomposes a rotation into two components called Swing (2-DOF) and Twist (1-DOF) rotations and limits each of them (see [FABRIK paper](http://www.andreasaristidou.com/publications/papers/FABRIK.pdf)).
+<iframe width="100%" height="400px" data-src="videos/BallAndSocket.webm"></iframe>
 
 
 H:
@@ -527,55 +289,56 @@ H:
 # DEMOS
 
 V:
-
-## Building & Interacting
-
-<br>
-<br>
-<section>
-  <div style="text-align: justify-all; float: left; width: 50%" class=embed-container >
-    Saying HI!
-    <iframe width="100%" height="500px" src="videos/demo_2.webm"></iframe>
-  </div>
-  <div style="text-align: justify-all; float : left; width : 50%" class=embed-container >
-    Multiple end Effectors
-    <iframe width="100%" height="500px" src="videos/demo_skeleton.webm"></iframe>
-  </div>
-</section>
-
-
-
-V:
-
-## Procedural Animation
-
-Fish - Flock
-
-<br>
-<br>
-<section>
-  <div style="text-align: justify-all; float: left; width: 50%" class=embed-container >
-  	Fish Demo
-    <iframe width="100%" height="500px" src="videos/fish_demo.webm"></iframe>
-  </div>
-  <div style="text-align: justify-all; float : left; width : 50%" class=embed-container >
-  	Flock Demo
-    <iframe width="100%" height="500px" src="videos/flock_demo.webm"></iframe>
-  </div>
-</section>
-
-V:
-
-## Procedural Animation
-
-Multilegged gait simulation
-
-<div style="text-align: justify-all;" class=embed-container >
-	<iframe width="60%" height="500px" src="videos/procedural_demo.webm"></iframe>
+## Getting skeleton from Data
+There are different kind of files as [Collada](https://www.khronos.org/collada/) or [BVH](https://research.cs.wisc.edu/graphics/Courses/cs-838-1999/Jeff/BVH.html) to "transport 3D assets between applications". Here we are interested on skeletal structure.
+<div style="text-align: justify-all; float: left; width: 50%" class=embed-container >
+  BVH Demo
+  <iframe width="100%" height="400px" data-src="videos/bvh_example.webm"></iframe>
+</div>
+<div style="text-align: justify-all; float : left; width : 50%" class=embed-container >
+  Collada Demo
+  <iframe width="100%" height="400px" data-src="videos/dae_example.webm"></iframe>
 </div>
 
+V:
+## Building & Interacting
+Allow the user to define and interact with the skeletal structure easyly.
+<div style="text-align: justify-all; float: left; width: 50%" class=embed-container >
+  Saying HI!
+  <iframe width="100%" height="500px" data-src="videos/demo_2.webm"></iframe>
+</div>
+<div style="text-align: justify-all; float : left; width : 50%" class=embed-container >
+  Multiple end Effectors
+  <iframe width="100%" height="500px" data-src="videos/demo_skeleton.webm"></iframe>
+</div>
 
+V:
+## Skinning
+Allow the user to define a skeleton and bind it to a mesh.
+<iframe width="100%" height="500px" data-src="videos/builder_demo_high_speed.webm"></iframe>
 
+V:
+## Procedural Animation
+<div style="text-align: justify-all; float: left; width: 50%" class=embed-container >
+  Fish Demo
+  <iframe width="100%" height="500px" data-src="videos/fish_demo.webm"></iframe>
+</div>
+<div style="text-align: justify-all; float : left; width : 50%" class=embed-container >
+  Flock Demo
+  <iframe width="100%" height="500px" data-src="videos/flock_demo.webm"></iframe>
+</div>
+
+V:
+## Procedural Animation
+Eagle Demo
+<iframe width="100%" height="500px" data-src="videos/eagle_demo.webm"></iframe>
+
+V:
+## Procedural Animation
+Multilegged gait simulation
+<div style="text-align: justify-all;" class=embed-container >
+	<iframe width="100%" height="500px" data-src="videos/procedural_demo.webm"></iframe>
+</div>
 
 H:
 
