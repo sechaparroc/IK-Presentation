@@ -41,7 +41,7 @@ H:
 
  * How to bring to life animated objects? <!-- .element: class="fragment" data-fragment-index="1"-->
 
- * One approach is [skeletal animation](https://en.wikipedia.org/wiki/Skeletal_animation) where the object to animae is represented by a skeleton and a skin.
+ * One approach is [skeletal animation](https://en.wikipedia.org/wiki/Skeletal_animation) where the object to animate is represented by a skeleton and a skin.
  <!-- .element: class="fragment" data-fragment-index="2"-->  
 
 
@@ -49,7 +49,7 @@ V:
 
 ## Skeleton
 
-* Set of rigid multibody system called Bones (or links) attached by Joints. A Skeleton usually is represented as a Hierarchical structure. <!-- .element: class="fragment" data-fragment-index="1"--> 
+* Set of rigid multibody system called bones (or links) attached by joints. A skeleton usually is represented as a hierarchical structure. <!-- .element: class="fragment" data-fragment-index="1"--> 
 * Joints are parametrized by Degrees of Fredom (DOF). <!-- .element: class="fragment" data-fragment-index="2"--> 
 
 * An end effector $\mathbf{s}$ is a point of interest that depends on joint configurations: $ \mathbf{s} = f(\mathbf{ \theta }) $ <!-- .element: class="fragment" data-fragment-index="3"-->
@@ -71,10 +71,10 @@ V:
 * Once motion is stablished, it is required to bind the skeleton with a surface (2D or 3D mesh).  
 <!-- .element: class="fragment" data-fragment-index="1"-->
 
-* The motion of the skeleton must deform the mesh smoothly (sking around the bones strechs and shrinks).
+* The motion of the skeleton must deform the mesh smoothly (e.g when we bend the elbow, the skin around the bones stretches and shrinks).
 <!-- .element: class="fragment" data-fragment-index="2"-->
 
-* To do so for each vertex of the mesh is defined an influence weight per skeleton joint. The vertex is deformed according to joint transformations. 
+* To do so, for each vertex of the mesh is defined an influence weight per skeleton joint. The vertex is deformed according to joint transformations. 
 <!-- .element: class="fragment" data-fragment-index="3"-->
 
 * Check this short example [video](https://youtu.be/YXDzMZaAo0U). 
@@ -83,7 +83,7 @@ V:
 V:
 
 ## Skinning
-<iframe width="100%" height="500px" data-src="videos/Skinning.webm"></iframe>
+<iframe width="100%" height="500px" src="videos/Skinning.webm"></iframe>
 
 H:
 
@@ -106,15 +106,13 @@ H:
   <div style="text-align: justify-all; float : left; width : 50%" class=embed-container >
     <br>
     <br>
-    <iframe class="fragment" data-fragment-index="5" width="100%" height="500px" data-src="videos/FK.webm"></iframe>
+    <iframe class="fragment" data-fragment-index="5" width="100%" height="500px" src="videos/FK.webm"></iframe>
   </div>
 </section>
 
 H:
 
 ## Inverse Kinematics (IK)
-
-<section>
   <div style="text-align: justify-all; float: left; width: 50%">
     <ul style="text-align: justify-all; font-size: 1em !important;">
       <li class="fragment" data-fragment-index="1"> Given the state of the Final effector $ \mathbf{s} $ find joint configurations: $\mathbf{ \theta } = f^{-1}( \mathbf{ s}) $ </li>
@@ -132,9 +130,8 @@ H:
   </div>
   <div style="text-align: justify-all; float : left; width : 50%" class=embed-container >
     <br>
-    <iframe class="fragment" data-fragment-index="6" width="100%" height="500px" data-src="videos/IK.webm"></iframe>
+    <iframe class="fragment" data-fragment-index="6" width="100%" height="500px" src="videos/IK.webm"></iframe>
   </div>
-</section>
 
 V:
 
@@ -142,17 +139,17 @@ V:
 
 IK on interactive applications must be:
 * R1 Efficient: Take as little time as possible.
- 
+<!-- .element: class="fragment" data-fragment-index="1"-->
 * R2 Accurate: Reach the goal position / orientation.
-
+<!-- .element: class="fragment" data-fragment-index="2"-->
 * R3 Scalable: Work with Big amounts of DOF. 
-
+<!-- .element: class="fragment" data-fragment-index="3"-->
 * R4 Robust: Reach the goal when managing constraints.
-
+<!-- .element: class="fragment" data-fragment-index="4"-->
 * R5 Able to Generate natural poses.
-
+<!-- .element: class="fragment" data-fragment-index="5"-->
 * R6 Generic: Deal with arbitrary Figures.
-
+<!-- .element: class="fragment" data-fragment-index="6"-->
 V:
 ## IK Methods
 | Kind      | R1 | R2 | R3 | R4 | R5 | R6 |
@@ -167,21 +164,19 @@ H:
 V: 
 ## Cyclic Coordinate Descent (CCD)
 Proposed by [Wang and Chen on 1991](http://web.cse.ohio-state.edu/~parent.1/classes/788/Sp06/ReferenceMaterial/IK/WC91.pdf)
+<div style="text-align: justify-all;">
+<br>
+  <ul style="text-align: justify-all; font-size: 1em !important;">
+    <li class="fragment" data-fragment-index="1"> Works only on Kinematic chains. </li>
+    <li class="fragment" data-fragment-index="2"> Let $ \mathbf{v\_{ie}} $ the vector formed by the $ith$ joint and the end effector position (Yellow one). </li>
+    <li class="fragment" data-fragment-index="3"> Let $ \mathbf{v\_{it}} $ the vector formed by the $ith$ joint and the target position (Green one). </li>
+    <li class="fragment" data-fragment-index="4"> Modify each Joint configuration per iteration to reduce the error: </li>
+  </ul>
+    <div class="fragment" data-fragment-index="5">
+    $$ cos(\theta \_{i}) = \frac{ \mathbf{v\_{ it }} } { \left| \mathbf{v \_{ it }} \right| } \frac{ \mathbf{v \_{ie}} }{ \left| \mathbf{v\_ {ie}} \right| } , \mathbf{r} = \mathbf{v\_{ it }} \times \mathbf{v\_{ ie }}$$ 
+    </div>
 
-<section>
-  <div style="text-align: justify-all;">
-  <br>
-    <ul style="text-align: justify-all; font-size: 1em !important;">
-      <li class="fragment" data-fragment-index="1"> Works only on Kinematic chains. </li>
-      <li class="fragment" data-fragment-index="2"> Let $ \mathbf{v\_{ie}} $ the vector formed by the $ith$ joint and the end effector position (Yellow one). </li>
-      <li class="fragment" data-fragment-index="3"> Let $ \mathbf{v\_{it}} $ the vector formed by the $ith$ joint and the target position (Green one). </li>
-      <li class="fragment" data-fragment-index="4"> Modify each Joint configuration per iteration to reduce the error: </li>  
-  	  <div class="fragment" data-fragment-index="5">
-      $$ cos(\theta \_{i}) = \frac{ \mathbf{v\_{ it }} } { \left| \mathbf{v \_{ it }} \right| } \frac{ \mathbf{v \_{ie}} }{ \left| \mathbf{v\_ {ie}} \right| } , \mathbf{r} = \mathbf{v\_{ it }} \times \mathbf{v\_{ ie }}$$ 
-	    </div>
-    </ul>
-  </div>
-</section>
+</div>
 
 V:
 ## Cyclic Coordinate Descent (CCD)
@@ -190,67 +185,93 @@ V:
 V: 
 ## Forward and Backward Reaching Inverse Kinematics (FABRIK)
 Proposed by [Andreas Aristidou on 2009](http://www.andreasaristidou.com/publications/papers/FABRIK.pdf)
-<section>
-  <div style="text-align: justify-all;">
-  <br>
-    <ul style="text-align: justify-all; font-size: 1em !important;">
-      <li> Works on Positions Space. </li> 
-      <li> "Minimize error by adjusting each joint angle one at a time". </li>
-      <li> Move the structure while  keeping distances between Joints (bones are rigid) via finding a point on a line. </li>
-      <div>Consider $ \mathbf{p}\_i$ the position of the $ ith $ joint in a chain, with $ i \in \\{ 1,2,...,n \\}$, $\mathbf{p}\_1$ the root of the chain, $\mathbf{p}\_n$ the end effector and $\mathbf{t}$ the target position.
-      Let $ d\_i $ the distance between two consecutive joints:  $ d\_i = \left| \mathbf{p}\_i - \mathbf{p}\_{i+1} \right| $.
-      </div>
+<div style="text-align: justify-all;">
+  <ul style="text-align: justify-all; font-size: 0.9em !important;">
+    <li class="fragment" data-fragment-index="1"> <i>"Minimize error by adjusting each joint angle one at a time". </i></li>
+    <li class="fragment" data-fragment-index="2"> Let $ \mathbf{p}\_i$ the position of the $ ith $ joint in a chain, with $ i \in \\{ 1,2,...,n \\}$, $\mathbf{p}\_1$ the root of the chain, $\mathbf{p}\_n$ the end effector and $\mathbf{t}$ the target position. </li>
+    <li class="fragment" data-fragment-index="3"> Move the structure while keeping distances  $ d\_i = \left| \mathbf{p}\_i - \mathbf{p}\_{i+1} \right| $ between Joints (bones are rigid) via finding a point on a line. </li>
+    <li class="fragment" data-fragment-index="4"> A full iteration is composed of two stages: 
+    <ul style="text-align: justify-all; font-size: 0.8em !important;">
+      <li class="fragment" data-fragment-index="5"> <b>Foward stage</b>: Assume that the target $\mathbf{t}$ is reached by end effector $\mathbf{p}\_n$ and adjust the distances of the remaining Joints. </li>
+      <li class="fragment" data-fragment-index="6"> <b>On Backward stage</b>: move the root $\mathbf{p}\_1$ to its initial position and adjust the distances of the remaining Joints. </li>
+    </li>
     </ul>
-  </div>
-</section>
+
+  </ul>
+</div>
 
 V:
 ## FABRIK
 <iframe width="100%" height="500px" src="videos/FABRIK_Solver_1.webm"></iframe>
 
 H:
-
 ## Using constraints
+  <div style="text-align: justify-all; float: left; width: 50%">
+  <br>
+    <ul style="text-align: justify-all; font-size: 1em !important;">
+      <li class="fragment" data-fragment-index="1"> When end effectors are manipulated we expect to obtain intuitive poses.</li>
+      <br>
+      <li class="fragment" data-fragment-index="2"> There could exist many solutions (i.e many different poses) that satisfy the IK problem. </li>
+      <br>
+      <li class="fragment" data-fragment-index="3"> Limiting the movement of the skeleton could enhance IK performance. </li>
+    </ul>
+  </div>
+  <div style="text-align: justify-all; float : left; width : 50%" class=embed-container >
+    <br>
+    <iframe class="fragment" data-fragment-index="4" width="100%" height="500px" src="videos/multiple_solutions.webm"></iframe>
+  </div>
 
-<section style="text-align: left;">
+V:
+## Using constraints
   <div style="float: left; width: 50%" >
-  <br>
-  <br>
-  <p style="text-align: left; font-size: 0.9em !important;">
+  <p class="fragment" data-fragment-index="1" style="text-align: left; font-size: 0.9em !important;">
   Limiting locally the joint movement by enclosing its related segment on a volume.
   </p>
   <ul style=" padding-left:40px; text-align: left; font-size: 0.7em !important;">
-    <li>[Fast and Easy Reach-Cone Joint Limits](https://pdfs.semanticscholar.org/d535/e562effd08694821ea6a8a5769fe10ffb5b6.pdf)</li>
-    <li>[A joint-constraint model using signed distance fields](https://link.springer.com/article/10.1007/s11044-011-9296-1)</li>
+    <li class="fragment" data-fragment-index="1">[Fast and Easy Reach-Cone Joint Limits](https://pdfs.semanticscholar.org/d535/e562effd08694821ea6a8a5769fe10ffb5b6.pdf)</li>
+    <li class="fragment" data-fragment-index="1">[A joint-constraint model using signed distance fields](https://link.springer.com/article/10.1007/s11044-011-9296-1)</li>
   </ul>
-  <p style="text-align: left; font-size: 0.9em !important;">
+  <p class="fragment" data-fragment-index="2" style="text-align: left; font-size: 0.9em !important;">
   Using physical attributes.
   </p>
-  <ul style=" padding-left:40px; text-align: left; font-size: 0.7em !important;">
+  <ul class="fragment" data-fragment-index="2" style=" padding-left:40px; text-align: left; font-size: 0.7em !important;">
     <li> [An Efficient Energy Transfer Inverse Kinematics Solution](https://pdfs.semanticscholar.org/aac6/cbd168f0e01911edbe564f59d7c1a00b7535.pdf)</li>
   </ul>
-  <p style="text-align: left; font-size: 0.9em !important;">
+  <p class="fragment" data-fragment-index="3" style="text-align: left; font-size: 0.9em !important;">
   Locking a joint position or orientation.
   </p>
-  <ul style=" padding-left:40px; text-align: left; font-size: 0.7em !important;">
+  <ul class="fragment" data-fragment-index="3" style=" padding-left:40px; text-align: left; font-size: 0.7em !important;">
     <li> [Nailing and pinning: Adding constraints to inverse kinematics](https://otik.uk.zcu.cz/bitstream/11025/11239/1/Greeff.pdf)</li>
   </ul>
   </div>
   <div style="text-align: middle; float = right; width = 50%; height = 100%">
     <div style="text-align: middle; float: right;">
-      <br>
-      <br>
-      <figure>
-          <img width = 100% src='fig/fig7.png'/>
+      <figure class="fragment" data-fragment-index="1">
+          <img width = 80% src='fig/fig7.png'/>
       </figure>
-      <figure>
-          <img width = 100% src='fig/fig9.png'/>
+      <figure class="fragment" data-fragment-index="3">
+          <img width = 80% src='fig/fig9.png'/>
       </figure>
       <!-- more Elements -->
     </div>
   </div>
 
-</section>
+V:
+## Using local constraints - Example
+  <div style="text-align: justify-all; float: left; width: 50%">
+  <br>
+    <ul style="text-align: justify-all; font-size: 1em !important;">
+      <li class="fragment" data-fragment-index="1"> Assume that Node 0 rotate only around a fixed axis (1 DOF).</li>
+      <br>
+      <li class="fragment" data-fragment-index="2"> Assume that Node 0 rotation is enclosed by a minimum and a maximum angle. </li>
+      <br>
+      <li class="fragment" data-fragment-index="3"> With local constraints there's a unique solution when target is reachable. </li>
+    </ul>
+  </div>
+  <div style="text-align: justify-all; float : left; width : 50%" class=embed-container >
+    <br>
+    <iframe class="fragment" data-fragment-index="5" width="100%" height="500px" src="videos/constraint_1.webm"></iframe>
+  </div>
 
 H:
 
