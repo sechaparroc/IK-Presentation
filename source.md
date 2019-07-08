@@ -68,13 +68,13 @@ V:
 
 ## Skin
 
-* Once motion is stablished, it is required to bind the skeleton with a surface (2D or 3D mesh).  
+* Once motion is set, it is required to bind the skeleton with a surface (2D or 3D mesh).  
 <!-- .element: class="fragment" data-fragment-index="1"-->
 
-* The motion of the skeleton must deform the mesh smoothly (e.g when we bend the elbow, the skin around the bones stretches and shrinks).
+* Skeleton motion must deform the mesh smoothly (e.g when we bend the elbow, the skin around the bones stretches and shrinks).
 <!-- .element: class="fragment" data-fragment-index="2"-->
 
-* To do so, for each vertex of the mesh is defined an influence weight per skeleton joint. The vertex is deformed according to joint transformations. 
+* To do so, given a mesh vertex it is defined an influence weight per skeleton joint. The vertex is deformed according to joint transformations. 
 <!-- .element: class="fragment" data-fragment-index="3"-->
 
 * Check this short example [video](https://youtu.be/YXDzMZaAo0U). 
@@ -225,7 +225,7 @@ V:
 ## Using constraints
   <div style="float: left; width: 50%" >
   <p class="fragment" data-fragment-index="1" style="text-align: left; font-size: 0.9em !important;">
-  Limiting locally the joint movement by enclosing its related segment on a volume.
+  Limiting the joint movement locally by enclosing its related segment on a volume.
   </p>
   <ul style=" padding-left:40px; text-align: left; font-size: 0.7em !important;">
     <li class="fragment" data-fragment-index="1">[Fast and Easy Reach-Cone Joint Limits](https://pdfs.semanticscholar.org/d535/e562effd08694821ea6a8a5769fe10ffb5b6.pdf)</li>
