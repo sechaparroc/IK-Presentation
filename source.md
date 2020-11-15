@@ -110,6 +110,11 @@ H:
   </div>
 </section>
 
+V:
+## FK on nub
+* See [Creating a Skeleton with Node class](https://github.com/sechaparroc/nub/wiki/2.-Skeleton-structures-with-Node-class#creating-a-skeleton).
+* See [Creating a Skeleton structures with Skeleton class](https://github.com/sechaparroc/GHIK-nub/wiki/2.-Skeleton-structures-with-Node-class#creating-a-skeleton).
+
 H:
 
 ## Inverse Kinematics (IK)
@@ -241,6 +246,13 @@ V:
   <figcaption>Full iteration of ECTIK steps</figcaption>
 </figure>
 </div>
+
+V:
+
+## IK on nub
+* See [IK with Node class](https://github.com/sechaparroc/GHIK-nub/wiki/2.-Skeleton-structures-with-Node-class#define-the-targets).
+* See [IK with Skeleton class](https://github.com/sechaparroc/GHIK-nub/wiki/3.-Skeleton-structures-with-Skeleton-class#enabling-ik-and-defining-the-targets).
+
 
 
 H:
