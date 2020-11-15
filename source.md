@@ -97,7 +97,7 @@ H:
       <br>
       <li class="fragment" data-fragment-index="2"> Direct joint manipulation </li>
       <br>
-      <li class="fragment" data-fragment-index="3"> Exhaustive </li>
+      <li class="fragment" data-fragment-index="3"> Must define each joint position/orientation. </li>
       <br>
       <li class="fragment" data-fragment-index="4"> Not Redundant </li>
       <br>
@@ -121,7 +121,7 @@ H:
       <br>
       <li class="fragment" data-fragment-index="3"> Root joint is Fixed </li>
       <br>
-      <li class="fragment" data-fragment-index="4"> Not Exhaustive </li>
+      <li class="fragment" data-fragment-index="4"> Must define only a target position/orientation. </li>
       <br>
       <li class="fragment" data-fragment-index="5"> Redundant </li>
       <br>
@@ -137,72 +137,111 @@ V:
 
 ## Requirements
 
-IK on interactive applications must be:
+IK methods on interactive applications must be:
 * R1 Efficient: Take as little time as possible.
 <!-- .element: class="fragment" data-fragment-index="1"-->
-* R2 Accurate: Reach the goal position / orientation.
+* R2 Accurate: Reach the target position / orientation.
 <!-- .element: class="fragment" data-fragment-index="2"-->
 * R3 Scalable: Work with Big amounts of DOF. 
 <!-- .element: class="fragment" data-fragment-index="3"-->
 * R4 Robust: Reach the goal when managing constraints.
 <!-- .element: class="fragment" data-fragment-index="4"-->
-* R5 Able to Generate natural poses.
+* R5 Visual smooth: Generate visual appealing postures.
 <!-- .element: class="fragment" data-fragment-index="5"-->
 * R6 Generic: Deal with arbitrary Figures.
 <!-- .element: class="fragment" data-fragment-index="6"-->
 V:
 ## IK Methods
-| Kind      | R1 | R2 | R3 | R4 | R5 | R6 |
-|-----------|-----------|----------|----------|-------------|---------|---------|
-| Analitycal|     X     |     X    |    -     |      X      |    X    |    -    |
-| Numerical |     -     |     X    |    X     |      X      |    -    |    X    |
-| ** Numerical Heuristic (FABRIK) ** |     X     |     X    |    X     |      -      |    X    |    X    |
+
+* Different methods to solve IK fall into four main categories: analytic, numerical, data-driving and hybrid methods <!-- .element: class="fragment" data-fragment-index="1"--> [IK Survey](http://andreasaristidou.com/publications/papers/IK_survey.pdf).
+<!-- .element: class="fragment" data-fragment-index="1"-->
+* IK heuristic methods are preferred in real time applications due to their generality and low
+computational cost. 
+<!-- .element: class="fragment" data-fragment-index="2"-->
+* Most widely used heuristic algorithms are forward and backward reaching inverse kinematics <!-- .element: class="fragment" data-fragment-index="3"--> [FABRIK](http://andreasaristidou.com/publications/papers/FABRIK.pdf), <!-- .element: class="fragment" data-fragment-index="3"-->Cyclic Coordinate Descent [CCD](https://ieeexplore.ieee.org/document/86079) <!-- .element: class="fragment" data-fragment-index="3"-->and Triangulation [TIK](https://ir.canterbury.ac.nz/bitstream/handle/10092/743/12607089_ivcnz07.pdf;jsessionid=952204D48736D487ED320E8CF926B1BD?sequence=1).
+<!-- .element: class="fragment" data-fragment-index="3"-->
 
 H:
-# IK Heuristic Methods
+# Solving IK
 
 V: 
-## Cyclic Coordinate Descent (CCD)
-Proposed by [Wang and Chen on 1991](http://web.cse.ohio-state.edu/~parent.1/classes/788/Sp06/ReferenceMaterial/IK/WC91.pdf)
-<div style="text-align: justify-all;">
-<br>
-  <ul style="text-align: justify-all; font-size: 1em !important;">
-    <li class="fragment" data-fragment-index="1"> Works only on Kinematic chains. </li>
-    <li class="fragment" data-fragment-index="2"> Let $ \mathbf{v\_{ie}} $ the vector formed by the $ith$ joint and the end effector position (Yellow one). </li>
-    <li class="fragment" data-fragment-index="3"> Let $ \mathbf{v\_{it}} $ the vector formed by the $ith$ joint and the target position (Green one). </li>
-    <li class="fragment" data-fragment-index="4"> Modify each Joint configuration per iteration to reduce the error: </li>
-  </ul>
-    <div class="fragment" data-fragment-index="5">
-    $$ cos(\theta \_{i}) = \frac{ \mathbf{v\_{ it }} } { \left| \mathbf{v \_{ it }} \right| } \frac{ \mathbf{v \_{ie}} }{ \left| \mathbf{v\_ {ie}} \right| } , \mathbf{r} = \mathbf{v\_{ it }} \times \mathbf{v\_{ ie }}$$ 
-    </div>
+## Our Approach
+* Define IK heuristic steps that works in rotation-space based on CCD, TIK and FABRIK.
+<!-- .element: class="fragment" data-fragment-index="1"-->
+* Couple these heuristics to efficiently deal with highly constrained articulated bodies.
+<!-- .element: class="fragment" data-fragment-index="2"-->
+* Define a generic heuristic algorithm for IK (GHIK)  that applies iteratively IK heuristic steps.
+<!-- .element: class="fragment" data-fragment-index="3"-->
 
+V:
+# IK Heuristic Steps
+
+
+V:
+## CCD Step
+
+* Moves a joint $J_i$ assuming that the remaining ones keep Fixed.
+<div align="center">
+<figure class="fragment" data-fragment-index="1">
+  <img width = 60% data-src='fig/ccd_step.jpg'/>
+  <figcaption>Full iteration of CCD steps</figcaption>
+</figure>
 </div>
 
 V:
-## Cyclic Coordinate Descent (CCD)
-<iframe width="100%" height="500px" data-src="videos/CCD_Solver_1.webm"></iframe>
+## TIK Step
 
-V: 
-## Forward and Backward Reaching Inverse Kinematics (FABRIK)
-Proposed by [Andreas Aristidou on 2009](http://www.andreasaristidou.com/publications/papers/FABRIK.pdf)
-<div style="text-align: justify-all;">
-  <ul style="text-align: justify-all; font-size: 0.9em !important;">
-    <li class="fragment" data-fragment-index="1"> <i>"Minimize error by adjusting each joint angle one at a time". </i></li>
-    <li class="fragment" data-fragment-index="2"> Let $ \mathbf{p}\_i$ the position of the $ ith $ joint in a chain, with $ i \in \\{ 1,2,...,n \\}$, $\mathbf{p}\_1$ the root of the chain, $\mathbf{p}\_n$ the end effector and $\mathbf{t}$ the target position. </li>
-    <li class="fragment" data-fragment-index="3"> Move the structure while keeping distances  $ d\_i = \left| \mathbf{p}\_i - \mathbf{p}\_{i+1} \right| $ between Joints (bones are rigid) via finding a point on a line. </li>
-    <li class="fragment" data-fragment-index="4"> A full iteration is composed of two stages: 
-    <ul style="text-align: justify-all; font-size: 0.8em !important;">
-      <li class="fragment" data-fragment-index="5"> <b>Foward stage</b>: Assume that the target $\mathbf{t}$ is reached by end effector $\mathbf{p}\_n$ and adjust the distances of the remaining Joints. </li>
-      <li class="fragment" data-fragment-index="6"> <b>On Backward stage</b>: move the root $\mathbf{p}\_1$ to its initial position and adjust the distances of the remaining Joints. </li>
-    </li>
-    </ul>
-
-  </ul>
+* Moves a pair of consecutive joints `$J_i , J_{i+1}$` assuming that the remaining ones keep Fixed.
+<div align="center">
+<figure class="fragment" data-fragment-index="1">
+  <img width = 60% data-src='fig/tik_step.jpg'/>
+  <figcaption>Full iteration of TIK steps</figcaption>
+</figure>
 </div>
 
 V:
-## FABRIK
+## TRIK Step
+
+* Translate and reach inverse kinematics (TRIK) is a FABRIK-inspired IK heuristic step that works on the rotation space.
+* Intuition: Moves a pair of consecutive joints `$J_i , J_{i+1}$` to approach the target while keeping `$J_{i+1}$` orientation.
+<div align="center">
+<figure class="fragment" data-fragment-index="1">
+  <img width = 70% data-src='fig/trik_step.jpg'/>
+  <figcaption>Full iteration of TRIK steps</figcaption>
+</figure>
+</div>
+
+V:
+## FABRIK DEMO
+* Intuition: Reach the target and fix the bone length.
 <iframe width="100%" height="500px" data-src="videos/FABRIK_Solver_1.webm"></iframe>
+
+
+V:
+## B&FIK Step
+* In some cases TIK and TRIK produce undesired solutions when joints are highly constrained. 
+* A back and forth IK (B&FIK) heuristic step solves this issue applying a few number of CCD steps to refine a given set of candidate
+solutions. 
+* Candidate solutions may be obtained using CCD, TIK and TRIK.
+<div align="center">
+<figure class="fragment" data-fragment-index="1">
+  <img width = 50% data-src='fig/bfik_step.jpg'/>
+  <figcaption>Full iteration of B&FIK-CCD steps</figcaption>
+</figure>
+</div>
+
+V:
+
+## ECTIK Step
+* Extended CCD-Triangulation IK (ECTIK) heuristic step deals with constrained articulated bodies and deadlock issues.
+* A small TIK modification is applied over `$J_{i+1}$` in order to generate at most two candidate solutions that are further refined by a B&FIK step. 
+<div align="center">
+<figure class="fragment" data-fragment-index="1">
+  <img width = 50% data-src='fig/ectik_step.jpg'/>
+  <figcaption>Full iteration of ECTIK steps</figcaption>
+</figure>
+</div>
+
 
 H:
 ## Using constraints
