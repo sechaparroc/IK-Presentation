@@ -32,7 +32,8 @@ H:
  3. Inverse Kinematics <!-- .element: class="fragment" data-fragment-index="3"-->
  4. Soving IK <!-- .element: class="fragment" data-fragment-index="4"-->
  5. Using constraints <!-- .element: class="fragment" data-fragment-index="5"-->
- 6. Demos <!-- .element: class="fragment" data-fragment-index="6"-->
+ 6. Skinning
+ 7. Demos <!-- .element: class="fragment" data-fragment-index="6"-->
 
 H:
 
@@ -63,27 +64,6 @@ V:
     <img data-src='fig/fig1.jpg'/>
 </figure>
 
-
-V:
-
-## Skin
-
-* Once motion is set, it is required to bind the skeleton with a surface (2D or 3D mesh).  
-<!-- .element: class="fragment" data-fragment-index="1"-->
-
-* Skeleton motion must deform the mesh smoothly (e.g when we bend the elbow, the skin around the bones stretches and shrinks).
-<!-- .element: class="fragment" data-fragment-index="2"-->
-
-* To do so, given a mesh vertex it is defined an influence weight per skeleton joint. The vertex is deformed according to joint transformations. 
-<!-- .element: class="fragment" data-fragment-index="3"-->
-
-* Check this short example [video](https://youtu.be/YXDzMZaAo0U). 
-<!-- .element: class="fragment" data-fragment-index="4"-->
-
-V:
-
-## Skinning
-<iframe width="100%" height="500px" data-src="videos/Skinning.webm"></iframe>
 
 H:
 
@@ -353,6 +333,37 @@ V:
 
 ## Constraints on nub
 * See [Rotational constraints](https://github.com/sechaparroc/GHIK-nub/wiki/4.-Rotational-constraints).
+
+H:
+
+# Skinning
+
+V:
+
+## Skin
+
+* Once motion is set, it is required to bind the skeleton with a surface (2D or 3D mesh).  
+<!-- .element: class="fragment" data-fragment-index="1"-->
+
+* Skeleton motion must deform the mesh smoothly (e.g when we bend the elbow, the skin around the bones stretches and shrinks).
+<!-- .element: class="fragment" data-fragment-index="2"-->
+
+* To do so, given a mesh vertex it is defined an influence weight per skeleton joint. The vertex is deformed according to joint transformations. 
+<!-- .element: class="fragment" data-fragment-index="3"-->
+
+* Check this short example [video](https://youtu.be/YXDzMZaAo0U). 
+<!-- .element: class="fragment" data-fragment-index="4"-->
+
+V:
+
+## Skinning using Linear Blend [Skinning](https://www.pixelfondue.com/blog/2017/10/27/how-it-works-linear-blend-skinning)
+<iframe width="100%" height="500px" data-src="videos/Skinning.webm"></iframe>
+
+V:
+
+## Skinning on nub
+* See [Rigging on nub](https://github.com/sechaparroc/GHIK-nub/wiki/5.-Rigging-on-nub).
+* See [SimpleSkinning example](https://github.com/sechaparroc/GHIK-nub/tree/main/SimpleSkinning).
 
 
 H:
