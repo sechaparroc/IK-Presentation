@@ -351,6 +351,9 @@ V:
 3-DOF rotational constraint (the node could rotate around any direction) that decomposes a rotation into two components called Swing (2-DOF) and Twist (1-DOF) rotations and limits each of them (see [FABRIK paper](http://www.andreasaristidou.com/publications/papers/FABRIK.pdf)).
 <iframe width="100%" height="400px" data-src="videos/BallAndSocket.webm"></iframe>
 
+## Constraints on nub
+* See [Rotational constraints](https://github.com/sechaparroc/GHIK-nub/wiki/4.-Rotational-constraints).
+
 
 H:
 
