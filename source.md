@@ -362,9 +362,9 @@ V:
 V:
 
 ## Skinning on nub
-* See [Rigging on nub](https://github.com/sechaparroc/GHIK-nub/wiki/5.-Rigging-on-nub).
 * See [SimpleSkinning example](https://github.com/sechaparroc/GHIK-nub/tree/main/SimpleSkinning).
-
+* See [Rigging on nub](https://github.com/sechaparroc/GHIK-nub/wiki/5.-Rigging-on-nub).
+* See [Rigging with constraints on nub](https://github.com/sechaparroc/GHIK-nub/wiki/6.-Rigging-skeletons-with-constraints).
 
 H:
 
