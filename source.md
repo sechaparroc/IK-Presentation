@@ -30,7 +30,7 @@ H:
  1. Introduction<!-- .element: class="fragment" data-fragment-index="1"-->
  2. Forward Kinematics<!-- .element: class="fragment" data-fragment-index="2"-->
  3. Inverse Kinematics <!-- .element: class="fragment" data-fragment-index="3"-->
- 4. IK Heuristic Methods <!-- .element: class="fragment" data-fragment-index="4"-->
+ 4. Soving IK <!-- .element: class="fragment" data-fragment-index="4"-->
  5. Using constraints <!-- .element: class="fragment" data-fragment-index="5"-->
  6. Demos <!-- .element: class="fragment" data-fragment-index="6"-->
 
@@ -240,6 +240,7 @@ V:
 ## ECTIK Step
 * Extended CCD-Triangulation IK (ECTIK) heuristic step deals with constrained articulated bodies and deadlock issues.
 * A small TIK modification is applied over `$J_{i+1}$` in order to generate at most two candidate solutions that are further refined by a B&FIK step. 
+* A TRIK step can be applied before ECTIK (TRIK-ECTIK) to generate visual appealing solutions.
 <div align="center">
 <figure class="fragment" data-fragment-index="1">
   <img width = 50% data-src='fig/ectik_step.jpg'/>
