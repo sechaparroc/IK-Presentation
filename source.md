@@ -248,11 +248,27 @@ V:
 </div>
 
 V:
+# GHIK
+
+V:
+## GHIK
+* Generic Heuristic IK Algorithm uses any of the introduced heuristics steps and applies them iteratively to reduce the distance between the end effector and its target.
+<!-- .element: class="fragment" data-fragment-index="1"-->
+* GHIK can be used to solve IK either for hierarchical skeletons or for kinematic chains.
+<!-- .element: class="fragment" data-fragment-index="2"-->
+* After several conducted experiments we strongly recommend use GHIK along with:
+<!-- .element: class="fragment" data-fragment-index="3"-->
+ 	- TRIK Steps:  for unconstrained skeletons.
+<!-- .element: class="fragment" data-fragment-index="3"--> 	
+ 	- TRIK-ECTIK or B&FIK-TRIK Steps: for constrained skeletons.
+<!-- .element: class="fragment" data-fragment-index="3"-->
+
+V:
 
 ## IK on nub
 * See [IK with Node class](https://github.com/sechaparroc/GHIK-nub/wiki/2.-Skeleton-structures-with-Node-class#define-the-targets).
 * See [IK with Skeleton class](https://github.com/sechaparroc/GHIK-nub/wiki/3.-Skeleton-structures-with-Skeleton-class#enabling-ik-and-defining-the-targets).
-
+* See [Benchmark example](https://github.com/sechaparroc/GHIK-nub/tree/main/Benchmark).
 
 
 H:
