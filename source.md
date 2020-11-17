@@ -32,8 +32,8 @@ H:
  3. Inverse Kinematics <!-- .element: class="fragment" data-fragment-index="3"-->
  4. Soving IK <!-- .element: class="fragment" data-fragment-index="4"-->
  5. Using constraints <!-- .element: class="fragment" data-fragment-index="5"-->
- 6. Skinning
- 7. Demos <!-- .element: class="fragment" data-fragment-index="6"-->
+ 6. Skinning <!-- .element: class="fragment" data-fragment-index="6"-->
+ 7. Demos <!-- .element: class="fragment" data-fragment-index="7"-->
 
 H:
 
@@ -100,7 +100,7 @@ H:
 ## Inverse Kinematics (IK)
   <div style="text-align: justify-all; float: left; width: 50%">
     <ul style="text-align: justify-all; font-size: 1em !important;">
-      <li class="fragment" data-fragment-index="1"> Given the state of the Final effector $ \mathbf{s} $ find joint configurations: $\mathbf{ \theta } = f^{-1}( \mathbf{ s}) $ </li>
+      <li class="fragment" data-fragment-index="1"> Given the state of the end effector $ \mathbf{s} $ find joint configurations: $\mathbf{ \theta } = f^{-1}( \mathbf{ s}) $ </li>
       <br>
       <li class="fragment" data-fragment-index="2"> Indirect joint manipulation based on Goal Reaching </li>
       <br>
